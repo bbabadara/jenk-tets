@@ -16,19 +16,19 @@ pipeline {
 
         stage('Install dependencies') {
             steps {
-                bat 'npm install'
+                sh 'npm install'
             }
         }
 
         stage('Run tests') {
             steps {
-                bat 'npm test'
+                sh 'npm test'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t %DOCKER_IMAGE% .'
+                sh 'docker build -t %DOCKER_IMAGE% .'
             }
         }
 
@@ -36,9 +36,9 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'dockerhub-credentials', variable: 'DOCKER_PASS')]) {
 
-                    bat 'echo %DOCKER_PASS% | docker login -u dockerhub_username --password-stdin'
+                    sh 'echo %DOCKER_PASS% | docker login -u dockerhub_username --password-stdin'
 
-                    bat 'docker push %DOCKER_IMAGE%'
+                    sh 'docker push %DOCKER_IMAGE%'
                 }
             }
         }
