@@ -10,7 +10,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/bbabadara/jenk-tets.git'
+                git branch: 'main', url: 'https://github.com/bbabadara/jenk-tets.git'
             }
         }
 
@@ -34,7 +34,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                withCredentials([string(credentialsId: 'dockerhub-password', variable: 'DOCKER_PASS')]) {
+                withCredentials([string(credentialsId: 'dockerhub-credentials', variable: 'DOCKER_PASS')]) {
 
                     bat 'echo %DOCKER_PASS% | docker login -u dockerhub_username --password-stdin'
 
